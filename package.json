@@ -1,6 +1,6 @@
 {
   "name": "shopify-plugin",
-  "version": "1.8.0",
+  "version": "1.8.2",
   "private": true,
   "publishConfig": {
     "executableFiles": [
@@ -31,6 +31,7 @@
       "./skills/shopify-liquid/scripts/validate.mjs",
       "./skills/shopify-onboarding-dev/scripts/log_feedback.mjs",
       "./skills/shopify-onboarding-dev/scripts/log_skill_use.mjs",
+      "./skills/shopify-onboarding-merchant/scripts/import_mock_shop_catalog.mjs",
       "./skills/shopify-onboarding-merchant/scripts/log_feedback.mjs",
       "./skills/shopify-onboarding-merchant/scripts/log_skill_use.mjs",
       "./skills/shopify-partner/scripts/log_feedback.mjs",
