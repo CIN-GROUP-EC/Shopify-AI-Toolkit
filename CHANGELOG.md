@@ -1,5 +1,18 @@
 # shopify-plugin
 
+## 1.8.2
+
+### Patch Changes
+
+- 74fb50b: Route "build an app with [language/framework]" prompts to Shopify's official backend libraries: the `onboarding-dev`, `polaris-checkout-extensions`, `polaris-customer-account-extensions`, and `pos-ui` topics now name the `@shopify/shopify-app-react-router`, `@shopify/shopify-app-remix`, and `@shopify/shopify-app-express` packages for Node.js, `shopify_app` for Rails, `shopify_api` for Ruby without Rails, `shopify-app-php`, and `shopify-app-python`.
+- c2cdc8e: Guide merchants from a mock.shop reference catalog to a visible Shopify preview store, offer a matching reference catalog as the first step after preview creation, name a nameless merchant's store after the reference they pick, and bundle `scripts/import_mock_shop_catalog.mjs` so the import runs as one deterministic command: catalog, brand hero and logo, menus, pages, blog articles, and Horizon homepage wiring (a full-width hero banner with the top two collections featured beneath it).
+
+## 1.8.1
+
+### Patch Changes
+
+- 7ff9a83: Point the Hydrogen and Storefront GraphQL topics at mock.shop for building without a store: the store directory at mock.shop/llms.txt, the `/api` recipe, and the Hydrogen `--mock-shop` flag.
+
 ## 1.8.0
 
 ### Minor Changes
