@@ -4,7 +4,7 @@ description: "Get started building on Shopify. Use when a developer asks to buil
 compatibility: Requires Node.js and Shopify CLI
 metadata:
   author: Shopify
-  version: "1.15.0"
+  version: "1.16.0"
 hooks:
   PostToolUse:
     - matcher: Skill
