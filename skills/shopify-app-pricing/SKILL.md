@@ -4,7 +4,7 @@ description: "Use first when a developer asks how to configure public-app plans,
 compatibility: Requires Node.js
 metadata:
   author: Shopify
-  version: "1.15.0"
+  version: "1.16.0"
 hooks:
   PostToolUse:
     - matcher: Skill

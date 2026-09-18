@@ -1,10 +1,10 @@
 ---
 name: shopify-polaris-app-home
-description: "Build your app's primary user interface embedded in the Shopify admin. Covers the Intents API (`shopify.intents.invoke`) for launching native workflows from App Home. If the prompt just mentions `Polaris` and you can't tell based off of the context what API they meant, assume they meant this API."
+description: "Build your app's primary user interface embedded in the Shopify admin using the **iframe** model — a web app you host yourself, rendered with `@shopify/polaris-types` and App Bridge. Covers the Intents API (`shopify.intents.invoke`) for launching native workflows from App Home. For the Shopify-hosted `admin.app.home.render` extension target, use **`polaris-admin-extensions`** instead. If the prompt just mentions `Polaris` and you can't tell based off of the context what API they meant, assume they meant this API."
 compatibility: Requires Node.js
 metadata:
   author: Shopify
-  version: "1.15.0"
+  version: "1.16.0"
 hooks:
   PostToolUse:
     - matcher: Skill
@@ -43,6 +43,12 @@ You should find all operations that can help the developer achieve their goal, p
 Polaris App Home has a set of ready to use UI design patterns and templates for common use cases that you can use to build your app.
 
 version: v1.0
+
+## Scope: the iframe App Home model
+
+This topic covers App Home built on the **iframe** model — a web app you host and deploy yourself, embedded in the Shopify admin, rendered with `@shopify/polaris-types` web components and driven by App Bridge.
+
+It does **not** cover **App Home UI extensions**: the Shopify-hosted `admin.app.home.render` extension target, built with Preact and `@shopify/ui-extensions`. Switch to the `shopify-polaris-admin-extensions` topic for that target. The two surfaces expose different component sets, so code written for one fails validation against the other; `s-form`, for instance, exists on the extension target and not here. Signals that the developer means the extension: a `shopify.extension.toml` whose `module` points at `admin.app.home.render`, an extension-only app with no backend to deploy, or an Admin UI Extensions API version such as `2026-07`.
 
 ## APIs
 
@@ -261,7 +267,7 @@ Use `s-grid` when form controls and actions must stay aligned in columns. A form
 
 ## Imports
 
-App Home extensions use `@shopify/app-bridge-types` for App Bridge APIs and `@shopify/polaris-types` for Polaris component types. Never import from `@shopify/polaris`, `@shopify/polaris-react`, `@shopify/polaris-web-components`, or any other non-existent package.
+Apps on the iframe App Home model use `@shopify/app-bridge-types` for App Bridge APIs and `@shopify/polaris-types` for Polaris component types. Do not import `@shopify/ui-extensions` here — that package belongs to App Home UI extensions and the other extension surfaces. Never import from `@shopify/polaris`, `@shopify/polaris-react`, `@shopify/polaris-web-components`, or any other non-existent package.
 
 ```ts
 import { useAppBridge } from "@shopify/app-bridge-react";
@@ -300,9 +306,9 @@ scripts/search_docs.mjs "<component tag name>" --version API_VERSION --model YOU
 
 Search for the **component tag name**, not the full user prompt.
 
-For example, if the user asks about form in app home:
+For example, if the user asks about page layout in app home:
 ```
-scripts/search_docs.mjs "s-form" --version API_VERSION --model YOUR_MODEL_NAME --client-name YOUR_CLIENT_NAME --client-version YOUR_CLIENT_VERSION
+scripts/search_docs.mjs "s-page" --version API_VERSION --model YOUR_MODEL_NAME --client-name YOUR_CLIENT_NAME --client-version YOUR_CLIENT_VERSION
 ```
 
 
