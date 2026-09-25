@@ -14,8 +14,7 @@ supported agents — and, on Claude Code, on `UserPromptSubmit` (see
 the agent does one of:
 
 1. Calls the host agent's `Skill` / `skill` tool with a Shopify AI
-   Toolkit skill name (e.g. `shopify-admin`, `shopify-storefront-graphql`,
-   `shopify-liquid`).
+   Toolkit skill name (e.g. `shopify`, `ucp`).
 2. Reads a `SKILL.md` file from a recognized Shopify AI Toolkit install
    path.
 
@@ -52,7 +51,7 @@ plugin-manifest hook API nor frontmatter hook support.
 
 When the plugin is installed on Claude Code, _both_ the plugin-manifest
 hook and the skill-frontmatter hook fire for the same
-`Skill("shopify-admin")` invocation. Each event is labeled so consumers
+`Skill("shopify")` invocation. Each event is labeled so consumers
 can collapse duplicates after the fact:
 
 - Plugin manifests prefix the hook command with
@@ -87,7 +86,7 @@ X-Shopify-Client-Name: claude-code | cursor | copilot-cli | vscode | vscode-insi
 {
   "tool": "skill_invocation",
   "parameters": {
-    "skill": "shopify-admin",
+    "skill": "shopify",
     "skillVersion": "1.2.2",       // null when not recoverable from path
     "trigger": "skill-tool",        // or "skill-md-read"
     "client": "claude-code",
@@ -111,8 +110,8 @@ it as `user_prompt` only when a Shopify skill actually activates. Prompts
 from sessions that never touch a Shopify skill are never transmitted, and
 `OPT_OUT_INSTRUMENTATION=true` disables the capture entirely. On other
 hosts (Cursor, Copilot) the hook carries no prompt — `user_prompt` there
-comes from the per-skill script surfaces (`scripts/validate.mjs` for
-skills with validation, `scripts/log_skill_use.mjs` for skills without).
+comes from the bundled script surfaces (`scripts/validate.mjs` for
+topics with a validator, `scripts/log_skill_use.mjs` for topics without).
 The hook always also supplies the dedup keys (`sessionId` + `toolUseId`).
 
 ## What is _not_ reported
@@ -171,26 +170,26 @@ The hook is required to never break the host tool call. The script:
 ```bash
 # Skill tool call (Claude Code) — plugin source
 SHOPIFY_AI_TOOLKIT_HOOK_SOURCE=plugin \
-echo '{"hook_event_name":"PostToolUse","tool_name":"Skill","tool_input":{"skill":"shopify-plugin:shopify-admin"},"session_id":"local","tool_use_id":"toolu_local"}' \
+echo '{"hook_event_name":"PostToolUse","tool_name":"Skill","tool_input":{"skill":"shopify-plugin:shopify"},"session_id":"local","tool_use_id":"toolu_local"}' \
   | bash scripts/track-telemetry.sh
 
 # Same call, skill-frontmatter source (default when the env var is unset).
-echo '{"hook_event_name":"PostToolUse","tool_name":"Skill","tool_input":{"skill":"shopify-admin"},"session_id":"local","tool_use_id":"toolu_local"}' \
+echo '{"hook_event_name":"PostToolUse","tool_name":"Skill","tool_input":{"skill":"shopify"},"session_id":"local","tool_use_id":"toolu_local"}' \
   | bash scripts/track-telemetry.sh
 
 # SKILL.md read (VS Code)
-echo '{"hook_event_name":"PostToolUse","tool_name":"read_file","tool_use_id":"x__vscode","tool_input":{"path":"/Users/me/.vscode/agent-plugins/github.com/Shopify/shopify-ai-toolkit/.github/plugins/shopify-ai-toolkit/skills/shopify-liquid/SKILL.md"}}' \
+echo '{"hook_event_name":"PostToolUse","tool_name":"read_file","tool_use_id":"x__vscode","tool_input":{"path":"/Users/me/.vscode/agent-plugins/github.com/Shopify/shopify-ai-toolkit/.github/plugins/shopify-ai-toolkit/skills/shopify/SKILL.md"}}' \
   | bash scripts/track-telemetry.sh
 
 # Opt-out via env var (no network call)
-echo '{"tool_name":"Skill","tool_input":{"skill":"shopify-admin"}}' \
+echo '{"tool_name":"Skill","tool_input":{"skill":"shopify"}}' \
   | OPT_OUT_INSTRUMENTATION=true bash scripts/track-telemetry.sh
 
 # Opt-out via the on-disk file, with the environment scrubbed — this is the
 # shape that hosts like Hermes and Codex exec actually produce.
 sandbox=$(mktemp -d)
 mkdir -p "$sandbox/.config/shopify-ai-toolkit" && touch "$sandbox/.config/shopify-ai-toolkit/opt-out"
-echo '{"tool_name":"Skill","tool_input":{"skill":"shopify-admin"}}' \
+echo '{"tool_name":"Skill","tool_input":{"skill":"shopify"}}' \
   | env -i PATH="$PATH" HOME="$sandbox" SKILL_TELEMETRY_TEST_MODE=1 bash scripts/track-telemetry.sh
 # Expect: only {"continue":true} — no [TEST_TELEMETRY_BODY] marker on stderr.
 ```
