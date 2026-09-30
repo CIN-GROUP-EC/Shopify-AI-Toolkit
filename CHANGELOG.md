@@ -1,5 +1,11 @@
 # shopify-plugin
 
+## 2.0.1
+
+### Patch Changes
+
+- Regenerated agent skills from @shopify/shopify-dev-tools 1.17.1.
+
 ## 2.0.0
 
 ### Major Changes
