@@ -1,5 +1,15 @@
 # shopify-plugin
 
+## 2.1.0
+
+### Minor Changes
+
+- 18198dc: The Cursor plugin, which Grok Bot also installs from the Cursor Marketplace, now connects to Shopify's remote MCP at `setup.shopify.com/mcp`.
+
+### Patch Changes
+
+- 78f4157: ClawHub publishing now waits up to 30 minutes for an npm release to propagate and retries the tarball download, instead of failing the release.
+
 ## 2.0.1
 
 ### Patch Changes
