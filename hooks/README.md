@@ -15,8 +15,14 @@ the agent does one of:
 
 1. Calls the host agent's `Skill` / `skill` tool with a Shopify AI
    Toolkit skill name (e.g. `shopify`, `ucp`).
-2. Reads a `SKILL.md` file from a recognized Shopify AI Toolkit install
-   path.
+2. Reads a `SKILL.md` file from the running hook's own Shopify AI Toolkit
+   install root.
+
+The read path is canonicalized and checked against the root derived from the
+running hook script: `<plugin-root>/skills/<known-skill>/SKILL.md` for plugin
+hooks, or `<skill-root>/SKILL.md` for standalone skill hooks. Arbitrary paths
+that merely resemble an install layout are rejected, as are unknown skill
+names and symlinked `SKILL.md` files.
 
 Both branches end up in the same place: a `POST` to
 `https://shopify.dev/mcp/usage` whose shape matches the payload the
@@ -54,11 +60,10 @@ hook and the skill-frontmatter hook fire for the same
 `Skill("shopify")` invocation. Each event is labeled so consumers
 can collapse duplicates after the fact:
 
-- Plugin manifests prefix the hook command with
-  `SHOPIFY_AI_TOOLKIT_HOOK_SOURCE=plugin`. The skill-frontmatter
-  invocation leaves the variable unset and defaults to `skill`. Both
-  values flow out as the `hookSource` field inside the body's
-  `parameters` object.
+- Plugin manifests pass `--hook-source plugin` to the hook command. The
+  skill-frontmatter invocation passes no flag and defaults to `skill`. Both
+  values flow out as the `hookSource` field inside the body's `parameters`
+  object.
 - Each event also carries the agent's `sessionId` and `toolUseId`
   inside `parameters`, so consumers can dedup on
   `(sessionId, toolUseId)` and keep whichever source they prefer.
@@ -177,9 +182,12 @@ echo '{"hook_event_name":"PostToolUse","tool_name":"Skill","tool_input":{"skill"
 echo '{"hook_event_name":"PostToolUse","tool_name":"Skill","tool_input":{"skill":"shopify"},"session_id":"local","tool_use_id":"toolu_local"}' \
   | bash scripts/track-telemetry.sh
 
-# SKILL.md read (VS Code)
-echo '{"hook_event_name":"PostToolUse","tool_name":"read_file","tool_use_id":"x__vscode","tool_input":{"path":"/Users/me/.vscode/agent-plugins/github.com/Shopify/shopify-ai-toolkit/.github/plugins/shopify-ai-toolkit/skills/shopify/SKILL.md"}}' \
-  | bash scripts/track-telemetry.sh
+# SKILL.md read (VS Code). Execute the hook from the same installed plugin
+# whose skill is being read; a source-tree hook plus a fabricated path fails
+# closed by design.
+plugin_root="/Users/me/.vscode/agent-plugins/github.com/Shopify/shopify-ai-toolkit/.github/plugins/shopify-ai-toolkit"
+echo "{\"hook_event_name\":\"PostToolUse\",\"tool_name\":\"read_file\",\"tool_use_id\":\"x__vscode\",\"tool_input\":{\"path\":\"$plugin_root/skills/shopify/SKILL.md\"}}" \
+  | bash "$plugin_root/hooks/scripts/track-telemetry.sh" --hook-source plugin
 
 # Opt-out via env var (no network call)
 echo '{"tool_name":"Skill","tool_input":{"skill":"shopify"}}' \
@@ -228,6 +236,11 @@ and rsyncs to `/hooks/` at the root of the public
 `Shopify/Shopify-AI-Toolkit` mirror — matching the layout each agent's
 plugin loader expects (`${CLAUDE_PLUGIN_ROOT}/hooks/...`,
 `${CURSOR_PLUGIN_ROOT}/hooks/...`, `${PLUGIN_ROOT}/hooks/...`).
+
+The hook derives its trusted install root from that physical script location,
+not from the harness-specific absolute path. This keeps the provenance check
+portable across agents with different install roots while preventing unrelated
+repositories from triggering telemetry with a matching path suffix.
 
 The two script files (`track-telemetry.sh`, `.ps1`) are _also_ copied
 into each generated skill's `scripts/` directory by

@@ -517,7 +517,7 @@ visitorConsent?: VisitorConsent$1;
 type CartGetFunction = (cartInput?: CartGetProps) => Promise<CartReturn | null>;
 type CartGetOptions = CartQueryOptions & {
 /\*\*
-_ The customer account client instance created by [`createCustomerAccountClient`](docs/api/hydrogen/latest/utilities/createcustomeraccountclient).
+_ The customer account client instance created by [`createCustomerAccountClient`](docs/api/hydrogen/2026-04/utilities/createcustomeraccountclient).
 _/
 customerAccount?: CustomerAccount;
 };

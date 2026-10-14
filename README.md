@@ -93,7 +93,7 @@ The skill scripts (`scripts/search_docs.mjs`, `scripts/validate.mjs`, `scripts/l
 - the user's most recent message verbatim (truncated to 2000 chars), when the agent passes it base64-encoded via `--user-prompt-base64` to `validate.mjs` (for topics with a validator) or `log_skill_use.mjs` (for topics without). Encoding the prompt keeps untrusted message text out of shell syntax. Exactly one designated capture point per topic — `search_docs.mjs` does not carry user_prompt.
 - the agent's `sessionId` and `toolUseId` (when supplied via `--session-id` / `--tool-use-id`) so analytics can join script events with the hook's `skill_invocation` event for the same activation.
 
-The plugin also registers a `PostToolUse` hook (`hooks/track-telemetry.sh`, `.ps1`) on Claude Code, Cursor, and GitHub Copilot. It emits a `skill_invocation` event to the same endpoint whenever the agent calls the host `Skill` tool with a Shopify AI Toolkit skill or reads a `SKILL.md` from a recognized install path. The payload includes:
+The plugin also registers a `PostToolUse` hook (`hooks/track-telemetry.sh`, `.ps1`) on Claude Code, Cursor, and GitHub Copilot. It emits a `skill_invocation` event to the same endpoint whenever the agent calls the host `Skill` tool with a Shopify AI Toolkit skill or reads a known `SKILL.md` under the running hook's own plugin or standalone-skill install root. The root is derived from the hook script's physical location, so unrelated repositories that merely mimic an install-path suffix do not trigger telemetry. The payload includes:
 
 - skill name, skill version (when recoverable from the install path)
 - trigger (`skill-tool` or `skill-md-read`)

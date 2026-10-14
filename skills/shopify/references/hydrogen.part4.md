@@ -4,6 +4,7 @@ This guide is split so each part fits in a single read. The other parts sit in t
 directory — `hydrogen.md`, `hydrogen.part2.md`, `hydrogen.part3.md`, `hydrogen.part5.md`, `hydrogen.part6.md` — and you should read the ones relevant to your task.
 
 ---
+  /\*\* Returns an object that contains headers that are needed for each query to Storefront API GraphQL endpoint for API calls made from a server. See [`getPrivateTokenHeaders` in Hydrogen React](/docs/api/hydrogen-react/2026-01/utilities/createstorefrontclient#:~:text=storefrontApiVersion-,getPrivateTokenHeaders,-(props%3F%3A) for more details._/
   getPrivateTokenHeaders?: ReturnType<typeof createStorefrontClient$1>['getPrivateTokenHeaders'];
   /** Creates the fully-qualified URL to your myshopify.com domain. See [`getShopifyDomain` in Hydrogen React](/docs/api/hydrogen-react/2026-01/utilities/createstorefrontclient#:~:text=StorefrontClientReturn-,getShopifyDomain,-(props%3F%3A) for more details. \*/
   getShopifyDomain?: ReturnType<typeof createStorefrontClient$1>['getShopifyDomain'];
@@ -69,7 +70,7 @@ language?: LanguageCode$1;
   type MetafieldWithoutOwnerId = Omit<CartMetafieldsSetInput, 'ownerId'>;
   type CartQueryOptions = {
   /**
-  _ The storefront client instance created by [`createStorefrontClient`](docs/api/hydrogen/latest/utilities/createstorefrontclient).
+  _ The storefront client instance created by [`createStorefrontClient`](docs/api/hydrogen/2026-04/utilities/createstorefrontclient).
   _/
   storefront: Storefront;
   /**
@@ -327,7 +328,7 @@ cart: Promise<CartReturn | null> | CartReturn | null;
 canTrack?: () => boolean;
 /** An optional custom payload to pass to all events. e.g language/locale/currency. _/
 customData?: Record<string, unknown>;
-/\*\* The shop configuration required to publish analytics events to Shopify. Use [`getShopAnalytics`](/docs/api/hydrogen/utilities/getshopanalytics). _/
+/\*\* The shop configuration required to publish analytics events to Shopify. Use [`getShopAnalytics`](/docs/api/hydrogen/2026-04/utilities/getshopanalytics). _/
 shop: Promise<ShopAnalytics | null> | ShopAnalytics | null;
 /** The customer privacy consent configuration and options. \*/
 consent: Consent;
@@ -382,7 +383,7 @@ declare function useAnalytics(): AnalyticsContextValue;
 type ShopAnalyticsProps = {
 /\*\*
 
-- The storefront client instance created by [`createStorefrontClient`](docs/api/hydrogen/utilities/createstorefrontclient).
+- The storefront client instance created by [`createStorefrontClient`](docs/api/hydrogen/2026-04/utilities/createstorefrontclient).
   _/
   storefront: Storefront;
   /\*\*
@@ -426,7 +427,7 @@ type WithCacheRunOptions<T> = {
 cacheKey: CacheKey;
 /**
 _ Use the `CachingStrategy` to define a custom caching mechanism for your data.
-_ Or use one of the pre-defined caching strategies: [`CacheNone`](/docs/api/hydrogen/utilities/cachenone), [`CacheShort`](/docs/api/hydrogen/utilities/cacheshort), [`CacheLong`](/docs/api/hydrogen/utilities/cachelong).
+_ Or use one of the pre-defined caching strategies: [`CacheNone`](/docs/api/hydrogen/2026-04/utilities/caching/cachenone), [`CacheShort`](/docs/api/hydrogen/2026-04/utilities/caching/cacheshort), [`CacheLong`](/docs/api/hydrogen/2026-04/utilities/caching/cachelong).
 _/
 cacheStrategy: CachingStrategy;
 /\*\* Useful to avoid accidentally caching bad results _/
@@ -436,7 +437,7 @@ type WithCacheFetchOptions<T> = {
 displayName?: string;
 /**
 _ Use the `CachingStrategy` to define a custom caching mechanism for your data.
-_ Or use one of the pre-defined caching strategies: [`CacheNone`](/docs/api/hydrogen/utilities/cachenone), [`CacheShort`](/docs/api/hydrogen/utilities/cacheshort), [`CacheLong`](/docs/api/hydrogen/utilities/cachelong).
+_ Or use one of the pre-defined caching strategies: [`CacheNone`](/docs/api/hydrogen/2026-04/utilities/caching/cachenone), [`CacheShort`](/docs/api/hydrogen/2026-04/utilities/caching/cacheshort), [`CacheLong`](/docs/api/hydrogen/2026-04/utilities/caching/cachelong).
 \*/
 cacheStrategy?: CachingStrategy;
 /** The cache key for this fetch _/
@@ -649,21 +650,3 @@ key: Scalars['String']['input'];
 type CartDeliveryAddressesAddProps = {
 action: 'DeliveryAddressesAdd';
 inputs?: {
-addresses: Array<CartSelectableAddressInput>;
-} & OtherFormData;
-};
-type CartDeliveryAddressesAddRequire = {
-action: 'DeliveryAddressesAdd';
-inputs: {
-addresses: Array<CartSelectableAddressInput>;
-} & OtherFormData;
-};
-type CartDeliveryAddressesRemoveProps = {
-action: 'DeliveryAddressesRemove';
-inputs?: {
-addressIds: Array<string> | Array<Scalars['ID']['input']>;
-} & OtherFormData;
-};
-type CartDeliveryAddressesRemoveRequire = {
-action: 'DeliveryAddressesRemove';
-inputs: {

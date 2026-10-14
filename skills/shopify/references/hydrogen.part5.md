@@ -4,6 +4,24 @@ This guide is split so each part fits in a single read. The other parts sit in t
 directory — `hydrogen.md`, `hydrogen.part2.md`, `hydrogen.part3.md`, `hydrogen.part4.md`, `hydrogen.part6.md` — and you should read the ones relevant to your task.
 
 ---
+addresses: Array<CartSelectableAddressInput>;
+} & OtherFormData;
+};
+type CartDeliveryAddressesAddRequire = {
+action: 'DeliveryAddressesAdd';
+inputs: {
+addresses: Array<CartSelectableAddressInput>;
+} & OtherFormData;
+};
+type CartDeliveryAddressesRemoveProps = {
+action: 'DeliveryAddressesRemove';
+inputs?: {
+addressIds: Array<string> | Array<Scalars['ID']['input']>;
+} & OtherFormData;
+};
+type CartDeliveryAddressesRemoveRequire = {
+action: 'DeliveryAddressesRemove';
+inputs: {
 addressIds: Array<string> | Array<Scalars['ID']['input']>;
 } & OtherFormData;
 };
@@ -216,17 +234,17 @@ getId?: CartHandlerOptions['getCartId'];
 setId?: CartHandlerOptions['setCartId'];
 /**
 _ The cart query fragment used by `cart.get()`.
-_ See the [example usage](/docs/api/hydrogen/utilities/createcarthandler#example-cart-fragments) in the documentation.
+_ See the [example usage](/docs/api/hydrogen/2026-04/utilities/cart/createcarthandler#example-cart-fragments) in the documentation.
 _/
 queryFragment?: CartHandlerOptions['cartQueryFragment'];
 /\*\*
 _ The cart mutation fragment used in most mutation requests, except for `setMetafields` and `deleteMetafield`.
-_ See the [example usage](/docs/api/hydrogen/utilities/createcarthandler#example-cart-fragments) in the documentation.
+_ See the [example usage](/docs/api/hydrogen/2026-04/utilities/cart/createcarthandler#example-cart-fragments) in the documentation.
 _/
 mutateFragment?: CartHandlerOptions['cartMutateFragment'];
 /**
 _ Define custom methods or override existing methods for your cart API instance.
-_ See the [example usage](/docs/api/hydrogen/utilities/createcarthandler#example-custom-methods) in the documentation.
+_ See the [example usage](/docs/api/hydrogen/2026-04/utilities/cart/createcarthandler#example-custom-methods) in the documentation.
 \*/
 customMethods?: TCustomMethods;
 };
@@ -339,7 +357,7 @@ shop?: ShopifyDomains;
   declare function createContentSecurityPolicy(props?: CreateContentSecurityPolicy & ShopProp): ContentSecurityPolicy;
 
 interface HydrogenScriptProps {
-/\*_ Wait to load the script until after the page hydrates. This prevents hydration errors for scripts that modify the DOM. Note: For security, `nonce` is not supported when using `waitForHydration`. Instead you need to add the domain of the script directly to your [Content Securitiy Policy directives](https://shopify.dev/docs/storefronts/headless/hydrogen/content-security-policy#step-3-customize-the-content-security-policy)._/
+/\*_ Wait to load the script until after the page hydrates. This prevents hydration errors for scripts that modify the DOM. Note: For security, `nonce` is not supported when using `waitForHydration`. Instead you need to add the domain of the script directly to your [Content Securitiy Policy directives](https://shopify.dev/docs/storefronts/headless/legacy/hydrogen/content-security-policy#step-3-customize-the-content-security-policy)._/
 waitForHydration?: boolean;
 }
 interface ScriptAttributes extends ScriptHTMLAttributes<HTMLScriptElement> {
@@ -478,10 +496,10 @@ optionValue: PartialProductOptionValues;
 /\*\*
 
 - @deprecated VariantSelector will be deprecated and removed in the next major version 2025-10
-- Please use [getProductOptions](https://shopify.dev/docs/api/hydrogen/latest/utilities/getproductoptions),
-- [getSelectedProductOptions](https://shopify.dev/docs/api/hydrogen/latest/utilities/getselectedproductoptions),
-- [getAdjacentAndFirstAvailableVariants](https://shopify.dev/docs/api/hydrogen/latest/utilities/getadjacentandfirstavailablevariants) utils instead.
-- and [useSelectedOptionInUrlParam](https://shopify.dev/docs/api/hydrogen/latest/utilities/useselectedoptioninurlparam)
+- Please use [getProductOptions](https://shopify.dev/docs/api/hydrogen/2026-04/utilities/getproductoptions),
+- [getSelectedProductOptions](https://shopify.dev/docs/api/hydrogen/2026-04/utilities/getselectedproductoptions),
+- [getAdjacentAndFirstAvailableVariants](https://shopify.dev/docs/api/hydrogen/2026-04/utilities/getadjacentandfirstavailablevariants) utils instead.
+- and [useSelectedOptionInUrlParam](https://shopify.dev/docs/api/hydrogen/2026-04/utilities/useselectedoptioninurlparam)
 - For a full implementation see the Skeleton template [routes/product.$handle.tsx](https://github.com/Shopify/hydrogen/blob/main/templates/skeleton/app/routes/products.%24handle.tsx).
   _/
   type VariantSelectorProps = {
@@ -489,11 +507,3 @@ optionValue: PartialProductOptionValues;
   handle: string;
   /** Product options from the [Storefront API](/docs/api/storefront/2026-01/objects/ProductOption). Make sure both `name` and `values` are a part of your query. \*/
   options: Array<PartialProductOption> | undefined;
-  /** Product variants from the [Storefront API](/docs/api/storefront/2026-01/objects/ProductVariant). You only need to pass this prop if you want to show product availability. If a product option combination is not found within `variants`, it is assumed to be available. Make sure to include `availableForSale` and `selectedOptions.name` and `selectedOptions.value`. _/
-  variants?: PartialDeep<ProductVariantConnection> | Array<PartialDeep<ProductVariant>>;
-  /\*\* By default all products are under /products. Use this prop to provide a custom path. _/
-  productPath?: string;
-  /** Should the VariantSelector wait to update until after the browser navigates to a variant. \*/
-  waitForNavigation?: boolean;
-  /** An optional selected variant to use for the initial state if no URL parameters are set \*/
-  selectedVariant?: Maybe<PartialDeep<ProductVariant>>;

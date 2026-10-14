@@ -1,5 +1,13 @@
 # shopify-plugin
 
+## 2.1.2
+
+### Patch Changes
+
+- f577dba: Remove the Discounts Allocator Function API, which shopify.dev no longer publishes.
+- d1c44bb: Only attach skill telemetry to reads under the running Shopify plugin or standalone skill installation, preventing lookalike repository paths from uploading a stashed prompt.
+- e6b8a0e: Route app security reviews and vulnerability audits to `use-shopify-cli` so agents run `shopify app security`.
+
 ## 2.1.1
 
 ### Patch Changes
