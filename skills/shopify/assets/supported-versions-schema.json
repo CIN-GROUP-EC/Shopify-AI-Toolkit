@@ -317,12 +317,6 @@
       "name": "2025-10"
     }
   ],
-  "functions_discounts_allocator": [
-    {
-      "name": "unstable",
-      "latestVersion": true
-    }
-  ],
   "functions_fulfillment_constraints": [
     {
       "name": "unstable"

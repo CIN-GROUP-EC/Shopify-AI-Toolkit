@@ -11,7 +11,7 @@ DO NOT USE HYDROGEN REACT, ONLY USE HYDROGEN.
 
 References:
 
-- /docs/storefronts/headless/hydrogen/cookbook
+- /docs/storefronts/headless/legacy/hydrogen/cookbook
 
 ## mock.shop: a store to build against before you have one
 
@@ -29,7 +29,7 @@ References:
 ## Hydrogen Cookbook - Ready-to-Use Recipes
 
 Hydrogen has a comprehensive cookbook with step-by-step recipes for common features.
-Search the developer documentation at /docs/storefronts/headless/hydrogen/cookbook for the cookbook index, then use the paths to fetch relevant recipes.
+Search the developer documentation at /docs/storefronts/headless/legacy/hydrogen/cookbook for the cookbook index, then use the paths to fetch relevant recipes.
 Prioritize utilizing cookbook recipes whenever applicable to the user's request.
 
 ## 🚨 CRITICAL ERROR PREVENTION 🚨

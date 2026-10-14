@@ -4,16 +4,24 @@ This guide is split so each part fits in a single read. The other parts sit in t
 directory — `hydrogen.md`, `hydrogen.part2.md`, `hydrogen.part3.md`, `hydrogen.part4.md`, `hydrogen.part5.md` — and you should read the ones relevant to your task.
 
 ---
+  /** Product variants from the [Storefront API](/docs/api/storefront/2026-01/objects/ProductVariant). You only need to pass this prop if you want to show product availability. If a product option combination is not found within `variants`, it is assumed to be available. Make sure to include `availableForSale` and `selectedOptions.name` and `selectedOptions.value`. _/
+  variants?: PartialDeep<ProductVariantConnection> | Array<PartialDeep<ProductVariant>>;
+  /\*\* By default all products are under /products. Use this prop to provide a custom path. _/
+  productPath?: string;
+  /** Should the VariantSelector wait to update until after the browser navigates to a variant. \*/
+  waitForNavigation?: boolean;
+  /** An optional selected variant to use for the initial state if no URL parameters are set \*/
+  selectedVariant?: Maybe<PartialDeep<ProductVariant>>;
   children: ({ option }: {
   option: VariantOption;
   }) => ReactNode;
   };
   /\*\*
 - @deprecated VariantSelector will be deprecated and removed in the next major version 2025-10
-- Please use [getProductOptions](https://shopify.dev/docs/api/hydrogen/latest/utilities/getproductoptions),
-- [getSelectedProductOptions](https://shopify.dev/docs/api/hydrogen/latest/utilities/getselectedproductoptions),
-- [getAdjacentAndFirstAvailableVariants](https://shopify.dev/docs/api/hydrogen/latest/utilities/getadjacentandfirstavailablevariants) utils instead.
-- and [useSelectedOptionInUrlParam](https://shopify.dev/docs/api/hydrogen/latest/utilities/useselectedoptioninurlparam)
+- Please use [getProductOptions](https://shopify.dev/docs/api/hydrogen/2026-04/utilities/getproductoptions),
+- [getSelectedProductOptions](https://shopify.dev/docs/api/hydrogen/2026-04/utilities/getselectedproductoptions),
+- [getAdjacentAndFirstAvailableVariants](https://shopify.dev/docs/api/hydrogen/2026-04/utilities/getadjacentandfirstavailablevariants) utils instead.
+- and [useSelectedOptionInUrlParam](https://shopify.dev/docs/api/hydrogen/2026-04/utilities/useselectedoptioninurlparam)
 - For a full implementation see the Skeleton template [routes/product.$handle.tsx](https://github.com/Shopify/hydrogen/blob/main/templates/skeleton/app/routes/products.%24handle.tsx).
   \*/
   declare function VariantSelector({ handle, options: \_options, variants: \_variants, productPath, waitForNavigation, selectedVariant, children, }: VariantSelectorProps): react.FunctionComponentElement<{
@@ -95,7 +103,7 @@ type GraphiQLLoader = (args: LoaderFunctionArgs) => Promise<Response>;
 declare const graphiqlLoader: GraphiQLLoader;
 
 type StorefrontRedirect = {
-/** The [Storefront client](/docs/api/hydrogen/utilities/createstorefrontclient) instance \*/
+/** The [Storefront client](/docs/api/hydrogen/2026-04/utilities/createstorefrontclient) instance \*/
 storefront: Storefront<I18nBase>;
 /** The [MDN Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) object that was passed to the `server.ts` request handler. _/
 request: Request;
