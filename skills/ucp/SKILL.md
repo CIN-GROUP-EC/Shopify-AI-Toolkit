@@ -6,7 +6,7 @@ requires_bin: ucp
 command: ucp
 metadata:
   author: Shopify
-  version: "1.17.2"
+  version: "1.18.0"
 hooks:
   PostToolUse:
     - matcher: Skill
