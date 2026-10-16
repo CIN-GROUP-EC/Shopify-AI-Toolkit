@@ -1,5 +1,16 @@
 # shopify-plugin
 
+## 2.2.0
+
+### Minor Changes
+
+- 16149ff: Support modern declaration assets and keep App Home version guidance synchronized with the API catalog.
+
+### Patch Changes
+
+- 71fac49: The OpenAI plugin now packages merchant-facing metadata, square branding icons, an exact Shopify MCP configuration, and content-free UCP telemetry.
+- 36dc5af: Support the same local authoring search route in source-built Dev MCP and private eval Skills.
+
 ## 2.1.2
 
 ### Patch Changes
